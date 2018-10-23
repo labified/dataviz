@@ -1,3 +1,5 @@
+const webpack = require('webpack');
+
 module.exports = {
   entry: "./src/index.tsx",
   output: {
@@ -9,8 +11,13 @@ module.exports = {
   devtool: "source-map",
 
   devServer: {
-    contentBase: '.'
+    contentBase: '.',
+    hot: true
   },
+
+  plugins: [
+    new webpack.HotModuleReplacementPlugin()
+  ],
 
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
