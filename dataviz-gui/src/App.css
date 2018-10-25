@@ -25,3 +25,16 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+
+/* Chart */
+.axis text {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
