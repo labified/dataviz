@@ -23,7 +23,7 @@ const renderChart = (data: d3.DSVParsedArray<IParsedRow>) => {
   const y = d3.scaleLinear().range([height, 0]);
   const x = d3.scaleBand().rangeRound([0, width]).paddingInner(0.1);
   const xAxis = d3.axisBottom(x);
-  const yAxis = d3.axisLeft(y);
+  const yAxis = d3.axisLeft(y).ticks(10).tickFormat(d => `${d}%`);
   const chart = d3.select("#chart")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
@@ -36,8 +36,14 @@ const renderChart = (data: d3.DSVParsedArray<IParsedRow>) => {
     .attr("transform", `translate(0, ${height})`)
     .call(xAxis);
   chart.append("g")
-    .attr("class", "y axis")
-    .call(yAxis);
+      .attr("class", "y axis")
+      .call(yAxis);
+  chart.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Frequency");
   chart.selectAll(".bar")
       .data(data)
     .enter().append("rect")
