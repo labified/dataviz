@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './App.css';
 
-import logo from './logo.svg';
+import logo from './mindified-logo.png';
 
 class App extends React.Component {
   public render() {
