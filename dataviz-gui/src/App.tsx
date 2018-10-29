@@ -1,9 +1,20 @@
+import * as L from 'leaflet';
 import * as React from 'react';
-import './App.css';
 
+import './App.css';
 import logo from './mindified-logo.png';
+import * as secrets from './secrets.json';
 
 class App extends React.Component {
+  public componentDidMount() {
+    const mymap = L.map('mapid').setView([51.505, -0.09], 13);
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+      accessToken: secrets.mapbox,
+      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+      id: 'mapbox.streets',
+      maxZoom: 18
+    }).addTo(mymap);
+  }
   public render() {
     return (
       <div className="App">
@@ -11,9 +22,7 @@ class App extends React.Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
-        </p>
+        <div id="mapid" />
       </div>
     );
   }
