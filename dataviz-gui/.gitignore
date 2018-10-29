@@ -21,3 +21,4 @@ yarn-debug.log*
 yarn-error.log*
 
 src/secrets.json
+src/train_1000.csv
