@@ -90,12 +90,13 @@ const renderMap = () => {
           const topLeft = bounds[0];
           const bottomRight = bounds[1];
 
-          svg .attr("width", bottomRight[0] - topLeft[0])
-              .attr("height", bottomRight[1] - topLeft[1])
-              .style("left", `${topLeft[0]}px`)
-              .style("top", `${topLeft[1]}px`);
+          const margin = 5;
+          svg .attr("width", bottomRight[0] - topLeft[0] + 2 * margin)
+              .attr("height", bottomRight[1] - topLeft[1] + 2 * margin)
+              .style("left", `${topLeft[0] - margin}px`)
+              .style("top", `${topLeft[1] - margin}px`);
 
-          g   .attr("transform", `translate(${-topLeft[0]},${-topLeft[1]})`);
+          g   .attr("transform", `translate(${-topLeft[0] + margin},${-topLeft[1] + margin})`);
 
           feature.attr("d", path);
         }
