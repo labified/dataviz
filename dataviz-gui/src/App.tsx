@@ -47,17 +47,42 @@ function geoTransform(map: L.Map) {
   });
 }
 
-const toGeoJsonFeatures = (row: IParsedRow): GeoJSON.Feature => {
-  return {
-    type: "Feature",
-    geometry: {
-        coordinates: [row.pickup_longitude, row.pickup_latitude],
-        type: "Point"
+const toGeoJsonFeatures = (row: IParsedRow): GeoJSON.Feature[] => {
+  return [
+    {
+      type: "Feature",
+      geometry: {
+          coordinates: [row.pickup_longitude, row.pickup_latitude],
+          type: "Point"
+      },
+      id: row.index,
+      properties: {category: "pickup"}
     },
-    id: row.index,
-    properties: null
-  } as GeoJSON.Feature;
+    {
+      type: "Feature",
+      geometry: {
+          coordinates: [row.dropoff_longitude, row.dropoff_latitude],
+          type: "Point"
+      },
+      id: row.index,
+      properties: {category: "dropoff"}
+    }
+  ];
 };
+
+const flatten = (array: any[][]): any[] => [].concat.apply([], array);
+
+const fillColor = (d: d3.ExtendedFeature): string => {
+  if(d.properties) {
+    switch (d.properties.category) {
+      case "pickup":
+        return "green";
+      case "dropoff":
+        return "red";
+    }
+  }
+  return "black";
+}
 
 const renderMap = () => {
   const map = L.map('mapid').setView([40.758161, -73.981927], 12);
@@ -74,18 +99,18 @@ const renderMap = () => {
       const transform = geoTransform(map);
       const path = d3.geoPath().projection(transform);
       
-      const geoData = { type: "FeatureCollection", features: trips.map(toGeoJsonFeatures) } as d3.ExtendedFeatureCollection;
+      const geoData = { type: "FeatureCollection", features: flatten(trips.map(toGeoJsonFeatures)) } as d3.ExtendedFeatureCollection;
 
       const feature = g.selectAll("path")
           .data(geoData.features)
-        .enter().append("path");
+        .enter().append("path")
+          .attr("fill", fillColor);
 
         map.on("moveend", reset);
         reset();
 
         // Reposition the SVG to cover the features.
         function reset() {
-          global.console.log("reset called");
           const bounds = path.bounds(geoData);
           const topLeft = bounds[0];
           const bottomRight = bounds[1];
