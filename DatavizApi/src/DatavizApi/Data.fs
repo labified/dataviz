@@ -3,15 +3,15 @@ module DatavizApi.Data
 open FSharp.Data
 open System
 
-type CsvTrips = CsvProvider<"../../data/train_sample.csv">
+type CsvTrips = CsvProvider<"../../data/train.csv">
 
 type TripData = {
-  Id: int
+  Id: string
   PickupDateTime: DateTime
-  PickupLongitude: decimal
-  PickupLatitude: decimal
-  DropoffLongitude: decimal
-  DropoffLatitude: decimal
+  PickupLongitude: float
+  PickupLatitude: float
+  DropoffLongitude: float
+  DropoffLatitude: float
 }
 
 type Trip = {
@@ -23,14 +23,14 @@ let init () =
 
   CsvTrips.Load("../../train.csv").Rows
   |> Seq.map (fun r -> {
-    Id = r.Id.Substring(2) |> int
+    Id = r.Id
     PickupDateTime = r.Pickup_datetime
-    PickupLongitude = r.Pickup_longitude
-    PickupLatitude = r.Pickup_latitude
-    DropoffLongitude = r.Dropoff_longitude
-    DropoffLatitude = r.Dropoff_latitude
+    PickupLongitude = r.Pickup_longitude |> float
+    PickupLatitude = r.Pickup_latitude |> float
+    DropoffLongitude = r.Dropoff_longitude |> float
+    DropoffLatitude = r.Dropoff_latitude |> float
   })
-  |> Seq.sortBy (fun t ->  t.PickupDateTime, t.Id)
+  |> Seq.sortBy (fun t ->  t.PickupDateTime, t.Id.Substring(2) |> int)
   |> Seq.mapi (fun i t -> {RowId = i; Data = t})
   |> Seq.toArray
 

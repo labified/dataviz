@@ -7,6 +7,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Data.fs" />
+    <Compile Include="GeoJSONData.fs" />
     <Compile Include="Program.fs" />
     <None Include="web.config" />
     <Content Include="WebRoot/**/*">
