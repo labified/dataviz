@@ -5,7 +5,7 @@
   "tasks": [
     {
       "label": "build",
-      "command": "dotnet build src/dataviz-api",
+      "command": "dotnet build src/DatavizApi",
       "type": "shell",
       "group": "build",
       "presentation": {

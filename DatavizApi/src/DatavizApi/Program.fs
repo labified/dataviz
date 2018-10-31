@@ -1,4 +1,4 @@
-module dataviz_api.App
+module DatavizApi.App
 
 open System
 open System.IO
@@ -28,7 +28,7 @@ module Views =
     let layout (content: XmlNode list) =
         html [] [
             head [] [
-                title []  [ encodedText "dataviz_api" ]
+                title []  [ encodedText "DatavizApi" ]
                 link [ _rel  "stylesheet"
                        _type "text/css"
                        _href "/main.css" ]
@@ -37,7 +37,7 @@ module Views =
         ]
 
     let partial () =
-        h1 [] [ encodedText "dataviz_api" ]
+        h1 [] [ encodedText "DatavizApi" ]
 
     let index (model : Message) =
         [
