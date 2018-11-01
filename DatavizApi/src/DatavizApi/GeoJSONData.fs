@@ -1,16 +1,25 @@
 module DatavizApi.GeoJSONData
 
-open Data
 open GeoJSON.Net.Feature
 open GeoJSON.Net.Geometry
+open System.Collections.Generic
 
-let category value =
-  dict [("category", value)]
+let dictionary (values: (string * string) seq) =
+  let d = Dictionary<string, string>()
+  values
+  |> Seq.iter (fun (name, value) -> d.Add(name, value))
+  d
 
-let toGeoJSON ({RowId = i; Data = trip}) =
+let toGeoJSON (trip : Data.TripCsv.Row) =
   [|
-    Feature(Point(Position(trip.PickupLongitude, trip.PickupLatitude)), category "pickup", trip.Id)
-    Feature(Point(Position(trip.DropoffLongitude, trip.DropoffLatitude)), category "dropoff", trip.Id)
+    Feature(
+      Point(Position(trip.Pickup_longitude, trip.Pickup_latitude)), 
+      dictionary ["category", "pickup"; "rowId", trip.Row_id.ToString()], 
+      trip.Id)
+    Feature(
+      Point(Position(trip.Dropoff_longitude, trip.Dropoff_latitude)), 
+      dictionary ["category", "dropoff"; "rowId", trip.Row_id.ToString()], 
+      trip.Id)
   |]
 
 let start () =
