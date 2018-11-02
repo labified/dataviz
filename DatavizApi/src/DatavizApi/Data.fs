@@ -25,7 +25,7 @@ let log msg =
 let init () =
   try
     log "Start reading data..."
-    let data = TripCsv.Load("../../../../../data/trips.csv").Rows |> Seq.toArray
+    let data = TripCsv.Load("../../../../../data/trips_20k.csv").Rows |> Seq.toArray
     log "Done reading data"
     data
     // log "Start deserializing..."
@@ -56,7 +56,7 @@ let init () =
 let allTrips = init()
 
 let start () =
-  allTrips.[..1000]
+  allTrips.[..999]
 
 let next lastRowId maxDateTime =
   allTrips.[lastRowId + 1..]

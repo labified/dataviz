@@ -79,10 +79,7 @@ let errorHandler (ex : Exception) (logger : ILogger) =
 // ---------------------------------
 
 let configureCors (builder : CorsPolicyBuilder) =
-  builder.WithOrigins("http://localhost:8080")
-       .AllowAnyMethod()
-       .AllowAnyHeader()
-       |> ignore
+  builder.AllowAnyOrigin() |> ignore
 
 let configureApp (app : IApplicationBuilder) =
   let env = app.ApplicationServices.GetService<IHostingEnvironment>()
